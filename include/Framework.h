@@ -37,8 +37,8 @@ struct FrameworkCalls{
     
     void*(*default_alloc)(size_t,size_t);
     void(*default_dealloc)(void*);
-    void(*default_construct)(void*);
-    void(*default_destroy)(void*);
+    void* reserved5;
+    void* reserved6;
     
     const Module*(*getDependency)(Framework*,Module*,const char*);
     const Interface*(*getDeclaredInterface)(Framework*,const Module*,const char*);
