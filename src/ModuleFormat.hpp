@@ -9,7 +9,7 @@
 #include <lclib-c++/Version.hpp>
 
 namespace orka::framework{
-    constexpr lclib::io::MagicNumbers<uint8_t[4]> MOD_MAGIC{0xEE,0x4F,0x4B,0x4D};
+    constexpr lclib::io::MagicNumbers<uint8_t[4]> MOD_MAGIC{{0xEE,0x4F,0x4B,0x4D}};
 
     enum ConstantTag:uint8_t{
         Const_Utf8,
@@ -35,6 +35,8 @@ namespace orka::framework{
         friend lclib::io::DataInputStream& operator>>(lclib::io::DataInputStream&,Constant&);
         friend lclib::io::DataOutputStream& operator<<(lclib::io::DataOutputStream&,const Constant&);
     };
+    lclib::io::DataInputStream& operator>>(lclib::io::DataInputStream&,Constant&);
+    lclib::io::DataOutputStream& operator<<(lclib::io::DataOutputStream&,const Constant&);
     template<ConstantTag tag> decltype(auto) get_entry(ConstantEntry<tag> entry,const std::vector<Constant>& pool){
         return std::get<static_cast<std::size_t>(tag)>(pool.at(entry.item));
     }
@@ -53,6 +55,9 @@ namespace orka::framework{
         friend lclib::io::DataOutputStream& operator<<(lclib::io::DataOutputStream&,const Dependency&);
     };
 
+    lclib::io::DataInputStream& operator>>(lclib::io::DataInputStream&,Dependency&);
+    lclib::io::DataOutputStream& operator<<(lclib::io::DataOutputStream&,const Dependency&);
+
     struct ModuleFile{
         lclib::io::MagicNumbers<uint8_t[4]> magic{MOD_MAGIC};
         lclib::version::Version ver;
@@ -64,6 +69,9 @@ namespace orka::framework{
         friend lclib::io::DataInputStream& operator>>(lclib::io::DataInputStream&,ModuleFile&);
         friend lclib::io::DataOutputStream& operator<<(lclib::io::DataOutputStream&,const ModuleFile&);
     };
+
+    lclib::io::DataInputStream& operator>>(lclib::io::DataInputStream&,ModuleFile&);
+    lclib::io::DataOutputStream& operator<<(lclib::io::DataOutputStream&,const ModuleFile&);
 }
 
 #endif //ORKA_FRAMEWORK_MODULEFORMAT_HPP
