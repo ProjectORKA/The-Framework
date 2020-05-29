@@ -13,6 +13,8 @@ typedef struct VTable{
     void(*destroy)(void*); // NULL for trivial destructor
 #ifndef __cplusplus
     void(*vfn[])(void*); // Entries into the vtable which has the structure defined by the interface
+#else
+    void(*vfn[1])(void*); // To satisfy stupidity
 #endif
 } VTable;
 
