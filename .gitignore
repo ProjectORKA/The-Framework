@@ -1,3 +1,4 @@
 /target
 /cmake-build-debug/
 /build/
+/out/
