@@ -45,7 +45,7 @@ magic MUST be the bytes `[EE 4F 4B 4D]`. version MUST be a version supported by 
         i64 Const_i64;
         u32 Const_u32;
         u64 Const_u64;
-        Type Const_Type;
+        u16 Const_Type;
         u16 Const_Version;
     } payload;
  };
@@ -54,31 +54,11 @@ magic MUST be the bytes `[EE 4F 4B 4D]`. version MUST be a version supported by 
  `tag` shall be one of `Const_Utf8` (0), `Const_i32` (1), `Const_i64` (2), `Const_u64` (3), `Const_Type` (4), `Const_Version` (5). 
  
  For `Const_Version`, the payload shall be an index into the constant pool which is a `Const_Utf8`, and the the form of a semantic versioning requirement string (either an exact version, or a version range), or a wildcard version string "*". 
+
+ For `Const_Type`, the payload shall be an index into the constant pool which is `Const_Utf8`,
+ in the form of an itanium mangled typename. 
  
- ```
- struct Type{
-    u8 kind;
-    union{
-        empty primitive;
-        u16 qualified;
-        u16 Type_Named;
-        struct{ u8 nparams; u16 params[nparams]; u16 ret;} Type_Function;
-        struct { u16 type; u16 len;} Type_Array;
-    }payload;
- };
- ```
- 
- kind shall be one of `Type_i8` (0), `Type_i16` (1), `Type_i32` (2), `Type_i64` (3), `Type_isize` (4),
-  `Type_i128` (5), `Type_u8` (6), `Type_u16` (7), `Type_u32` (8), `Type_u64` (9), `Type_usize` (10),
-  `Type_u128` (11), `Type_f32` (12), `Type_f64` (13), `Type_fL` (14) (all of which use the union field `primitive`), 
-  `Type_Const` (15), `Type_Volatile` (15), `Type_Pointer` (16), `Type_Reference` (17), `Type_DynArray` (18) (which all use the union field `qualified`),
-  `Type_Named` (19), `Type_Function` (20), or `Type_Array` (21).
-  
-  For types using the field `qualified`, it must be an index into the constant pool which is a `Const_Type`, which is the type to qualify with this. 
-  For Type_Named, the payload must be an index into the constant pool which is a `Const_Utf8`. 
-  For Type_Function, ret and all params must be indecies into the constant pools which are all `Const_Type`.
-  For Type_Array, type shall be an index into the constant pool which is a `Const_Type`. len shall be an index into the constant pool which is either a `Const_u32` or `Const_u64` and is the length of the array.
-  
+
 ### Dependencies
   
   ```

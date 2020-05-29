@@ -1,0 +1,3 @@
+[submodule "LCLib-CXX"]
+	path = LCLib-CXX
+	url = https://github.com/LightningCreations/LCLib-CXX.git

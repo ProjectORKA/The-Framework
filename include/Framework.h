@@ -21,6 +21,7 @@ typedef struct{
     const VTable* vtable;
 } InterfacePtr;
 
+typedef void(*virtual_fn)(void*);
 
 
 typedef struct Interface Interface;
@@ -49,6 +50,11 @@ struct FrameworkCalls{
     const VTable* (*getCommonVTable)(Framework*,const Module*,const char*);
     const VTable* (*getProvidedVTable)(Framework*,const Module*,const char*,const Interface*);
     void (*destroy)(InterfacePtr);
+
+    virtual_fn*(*find_virtual)(Framework*,const VTable*,const char*);
+    void* reserved7;
+    void* reserved8;
+    void* reserved9;
 };
 
 
